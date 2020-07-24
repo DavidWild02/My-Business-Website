@@ -2,31 +2,33 @@
   <div id="app">
     <div id="nav">
       <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+      <router-link to="/about-me">About Me</router-link> |
+      <router-link to="/my-projects">My Projects</router-link> |
+      <router-link to="/contact">Contact info</router-link>
     </div>
-    <router-view />
+    <router-view class="cointainer-lg"/>
   </div>
 </template>
 
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+<style lang="sass">
+$max-width: 1012px
 
-#nav {
-  padding: 30px;
+body
+  padding-top: 6em
+  box-sizing: border-box
+  color: whitesmoke
+  backround-color: rgb(24, 26, 27)
 
-  a {
-    font-weight: bold;
-    color: #2c3e50;
+#nav
+  background-color: grey
 
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
-}
+.container-lg 
+  max-width: $max-width
+  padding: 0px
+  margin:
+    right: auto
+    left: auto
+
+.col-2
+  column-count: 2
 </style>
