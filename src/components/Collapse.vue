@@ -2,66 +2,58 @@
 <!-- https://jsfiddle.net/rezaxdi/sxgyj1f4/3/ example for toggle with vue -->
 <template>
   <div class="collapse">
-    <style>
-      :root {
-        --height: {{ height }};
-      }
-    </style>
     {{ title }} 
-    <input type="button" @click="collapse">{{ collapse ? 'mehr' : 'weniger' }}</input>
-    <transition name="smooth">
-      <div ref="coll-content" v-show="collapsed">
-        <slot></slot>
-      </div>
-    </transition>
+    <button @click="toggle">{{ isCollapsed ? 'mehr' : 'weniger' }}</button>
+    <div ref="coll-content" id="coll-content" :style="isCollapsed ? {} : { height: maxHeight }">
+      <slot></slot>
+    </div>
   </div>
 </template>
 
 
 <script lang="ts">
-import {Vue, Prop, Component} from "vue-property-decorator";
+import 'reflect-metadata';
+import { Vue, Prop, Component } from "vue-property-decorator";
+import { setStyle } from '../tools/setStyle';
 
-@Component()
+@Component
 export default class Collapse extends Vue {
-  @Prop() readonly title: String;
-  public collapsed: Boolean = false;
-  private height: String = 'auto';
+  @Prop({ required: true }) readonly title!: string;
+  public isCollapsed = false;
+  private maxHeight = '0';
 
   mounted() {
-    this.update_height();
+    this.initHeight();
   }
 
-  public collapse() {
-    this.collapsed = !this.collapsed;
+  public toggle() {
+    this.isCollapsed = !this.isCollapsed;
   }
 
-  update_height() {
-    this.$refs['coll-content'].style = { 
+  initHeight() {
+    setStyle({ 
+      'height': 'auto',
       'position': 'absolute', 
       'visibility': 'hidden',
-      'display': 'block'
-    };
+      'display': 'block',
+    }, this.$refs['coll-content'] as HTMLElement);
 
-    this.height = getComputedStyle(this.$refs['coll-content']).height;
+    this.maxHeight = getComputedStyle(this.$refs['coll-content'] as HTMLElement).height;
 
-    this.$refs['coll-content'].style = { 
-      'position': null, 
-      'visibility': null,
-      'display': 'none'
-    };
+    setStyle({ 
+      'height': '0',
+      'position': '', 
+      'visibility': '',
+      'display': '',
+    }, this.$refs['coll-content'] as HTMLElement);
   }
 }
 </script>
 
 
 <style lang="sass">
-.smooth-enter-to, .smooth-leave
-  height: var(--height)
-
-.smooth-enter-active, .smooth-leave-active
-  transition: height .5s
-  overflow: hidden
-
-.smooth-enter, .smooth-leave-to
+#coll-content
   height: 0
+  overflow: hidden
+  transition: 1s
 </style>

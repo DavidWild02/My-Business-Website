@@ -1,20 +1,13 @@
 <template>
-  <div class="home">
-
-  </div>
+  <div class="home"></div>
 </template>
 
-
 <script lang="ts">
-import {Component, Prop, Vue} from 'vue-property-decorator';
+import "reflect-metadata";
+import { Component, Prop, Vue } from "vue-property-decorator";
 
-@Component()
-export default class Home extends Vue {
-
-}
+@Component
+export default class Home extends Vue {}
 </script>
 
-
-<style lang="sass">
-
-</style>
+<style lang="sass"></style>

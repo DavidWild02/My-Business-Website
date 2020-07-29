@@ -6,7 +6,7 @@
       <router-link to="/my-projects">My Projects</router-link> |
       <router-link to="/contact">Contact info</router-link>
     </div>
-    <router-view class="cointainer-lg"/>
+    <router-view class="cointainer-lg" />
   </div>
 </template>
 
@@ -22,7 +22,7 @@ body
 #nav
   background-color: grey
 
-.container-lg 
+.container-lg
   max-width: $max-width
   padding: 0px
   margin:
