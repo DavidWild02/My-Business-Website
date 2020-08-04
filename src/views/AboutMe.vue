@@ -46,9 +46,9 @@
             description: 'Geburt im Krankenhaus Bruneck'
           },
           { date: new Date(2005, 0) },
-          { 
-            date: new Date(2008, 9), 
-            description: 'Grundschule Niederrasen' 
+          {
+            date: new Date(2008, 9),
+            description: 'Grundschule Niederrasen'
           },
           { date: new Date(2010, 0) },
           {
