@@ -1,5 +1,14 @@
 <template>
-  <div class="home"></div>
+  <div class="home">
+    <img />
+    <div>
+      <h2>Stellen sie mich ein, Ich hab es nötig</h2>
+      <p>
+        Lorem ipsum , vamus ficktus kacktus schwanzus longus erectus.
+        Incontinenzia absurdum ficto schwachsinntumm. Nonsense.
+      </p>
+    </div>
+  </div>
 </template>
 
 <script lang="ts">

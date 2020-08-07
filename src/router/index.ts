@@ -20,10 +20,6 @@ const routes: Array<RouteConfig> = [
   {
     path: "/my-projects",
     component: () => import("../views/MyProjects.vue")
-  },
-  {
-    path: "/contact",
-    component: () => import("../views/Contact.vue")
   }
 ];
 
