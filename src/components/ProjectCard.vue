@@ -13,7 +13,7 @@
             :title="tag"
             :key="index"
           ></SvgIcon>
-          <div class="circle">+{{ tags.length - firstTags.length }}</div>
+          <div class="circle">+{{ this.tags.length }}</div>
         </div>
         <div class="flex-containter" :class="[ tooMuchTags ? 'tooltip' : '' ]">
           <SvgIcon
@@ -81,11 +81,11 @@ export default class ProjectCard extends Vue {
     this.activeTop = !this.activeTop;
   }
 
-  tooMuchTags(): boolean {
+  get tooMuchTags(): boolean {
     return (
       (this.tags.length > 4 && this.size == "small") ||
       (this.tags.length > 6 && this.size == "medium") ||
-      this.tags.length > 8
+      (this.tags.length > 8 && this.size == 'large')
     );
   }
 }

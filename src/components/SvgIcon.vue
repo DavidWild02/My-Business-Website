@@ -9,23 +9,25 @@
 <script lang="ts">
 import { Vue, Prop, Component } from 'vue-property-decorator';
 
-@Component({
-  name: 'svg-icon'
+@Component<SvgIcon>({
+  name: 'svg-icon',
+  data() {
+    return {
+      iconPath: '',
+    }
+  }
 })
 export default class SvgIcon extends Vue {
   @Prop({ required: true }) name!: string;
   @Prop({ default: null }) title!: string | null;
+  iconPath!: string;
 
-  get iconPath() {
-    return (async () => {
-      let { defautl: icon } = await import(`@/assets/icons/${this.name}.svg`);
-      if (Object.prototype.hasOwnProperty.call(icon, "default")) {
-        icon = icon.default;
-      }
-      console.log(icon);
-
-      return icon.url;
-    })();
+  async created() {
+    let { default: icon } = await import(`@/assets/icons/${this.name}.svg`);
+    if (Object.prototype.hasOwnProperty.call(icon, "default")) {
+      icon = icon.default;
+    }
+    this.iconPath = icon.url;
   }
 
   get className() {

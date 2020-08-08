@@ -41,7 +41,7 @@
         title="Mandelbrot-Set4"
         link="https://github.com/DavidWild02/Mandelbrot-Set"
         img-name="logo.png"
-        :tags="['C++', 'Qt']"
+        :tags="['C++', 'Qt', 'C++', 'Qt', 'C++', 'Qt', 'C++', 'Qt', 'C++', 'Qt', 'C++', 'Qt']"
         size="medium"
       >
         Die Mandelbrot-Menge ist eine mathematische Menge der komplexen Zahlen,
