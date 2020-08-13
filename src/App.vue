@@ -6,7 +6,7 @@
       <router-link to="/my-projects">My Projects</router-link>
     </div>
     <div class="container-lg">
-      <router-view/>
+      <router-view />
     </div>
     <div class="Contact">
       <h3>Contact</h3>
@@ -14,7 +14,13 @@
         <div class="col-2">
           <p>E-mail: <b>david.wild2002@gmail.com</b></p>
           <p>Mobil: <b>+39 348 581 5686</b></p>
-          <p>Adresse: <b>Provinz BZ 39030 Rasen/Antholz Niederrasen Niederrasnerstraße 30A</b></p>
+          <p>
+            Adresse:
+            <b
+              >Provinz BZ 39030 Rasen/Antholz Niederrasen Niederrasnerstraße
+              30A</b
+            >
+          </p>
         </div>
         <div class="col-2">
           <p>

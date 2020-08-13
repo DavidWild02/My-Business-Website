@@ -1,38 +1,35 @@
 <template>
-  <div :class="['project-card', size]">
-    <div :class="['switch', activeTop ? 'active' : '']">
-      <img :src="require(`../assets/${imgName}`)" />
-    </div>
-    <div id="card-mid">
-      <h2>{{ title }}</h2>
-      <div v-if="tags.length > 0" class="">
-        <div v-if="tooMuchTags" class="tooltip-trigger">
-          <SvgIcon
-            v-for="(tag, index) in firstTags"
-            :name="toIconName(tag)"
-            :title="tag"
-            :key="index"
-          ></SvgIcon>
-          <div class="circle">+{{ this.tags.length }}</div>
-        </div>
-        <div class="flex-containter" :class="[ tooMuchTags ? 'tooltip' : '' ]">
-          <SvgIcon
-            v-for="(tag, index) in tags"
-            :name="toIconName(tag)"
-            :title="tag"
-            :key="index"
-          ></SvgIcon>
+  <div 
+    :class="['project-card', size]" 
+    :style="{ backgroundImage: 'url('+ require(`../assets/${imgName}`) +')'}"
+  >
+    <div id="card-mid" :class="[activeTop ? '' : 'active']">
+      <h2 class="heading">{{ title }}</h2>
+      <div v-if="tags.length > 0" id="tags">
+        <SvgIcon
+          v-for="(tag, index) in tags"
+          :name="toIconName(tag)"
+          :title="tag"
+          :key="index"
+        ></SvgIcon>
+      </div>
+      <div v-if="!!link" class="link" @click="gotoLink">
+        <SvgIcon :name="toIconName(getLinkSiteName())"/>
+        <div class="vc-text">{{ getLinkSiteName() }}</div>
+      </div>
+      <div @click="doSwitch" id="switch-btn" ref="switchButton">
+        <div :class="[activeTop ? 'mirror' : '']">
+          <svg height="50" width="50">
+            <polyline points="0,15 25,30 50,15" style="fill:none;stroke:white;stroke-width:2"/>
+            <polyline points="0,25 25,40 50,25" style="fill:none;stroke:white;stroke-width:2"/>
+          </svg>      
         </div>
       </div>
-      <a v-if="!!link" :href="link">Visit</a>
-      <button @click="doSwitch"><i>asdf</i></button>
     </div>
-    <div :class="['switch', activeTop ? '' : 'active']">
+    <div id="switch" :class="[activeTop ? '' : 'active']">
       <p>
         <slot></slot>
       </p>
-
-      <p></p>
     </div>
   </div>
 </template>
@@ -60,49 +57,64 @@ export default class ProjectCard extends Vue {
   readonly size!: string;
   activeTop = true;
 
-  get firstTags(): string[] {
-    if (this.size == "small") {
-      return this.tags.splice(0, 3);
-    } else if (this.size == "medium") {
-      return this.tags.splice(0, 5);
-    } else return this.tags.splice(0, 7);
-  }
-
   toIconName(tag: string): string {
     if (tag == "C++") {
       return "cpp";
     } else if (tag == "C#") {
       return "csharp";
-    }
+    } 
     return tag.toLowerCase();
   }
 
+  getLinkSiteName(): string {
+    const site: string = (new URL(this.link)).hostname;
+    switch (site) {
+      case 'github.com': return 'GitHub';
+      case 'exercism.io': return 'Exercism';
+      default: return 'error';
+    }
+  }
+
   doSwitch() {
+    /*
+      If you dont remove the focus from the button before the transition
+      The page will be scrolled so that the button doesnt move from its viewport position
+    */
+    (this.$refs.switchButton as HTMLElement).blur();
     this.activeTop = !this.activeTop;
   }
 
-  get tooMuchTags(): boolean {
-    return (
-      (this.tags.length > 4 && this.size == "small") ||
-      (this.tags.length > 6 && this.size == "medium") ||
-      (this.tags.length > 8 && this.size == 'large')
-    );
+  gotoLink() {
+    location.href = this.link;
   }
 }
 </script>
 
-<style lang="sass" scoped>
+<style lang="sass">
 $row-height: 350px
+$border-radius: 12px
+$little-border-radius: $border-radius - 3px
+$hcircle-r: 25px
+
+@mixin border-radius($bottom, $top: 0px)
+  border-radius: $top $top $bottom $bottom
+
+
+h2
+  margin-top: 0px
 
 .project-card
+  display: flex
+  flex-direction: column
+  justify-content: flex-end
+  align-items: stretch
   height: $row-height
-  margin-bottom: 2%
   border:
     width: 2px
     style: solid
     color: white
-    radius: 8px
-  flex-shrink: 0
+    radius: $border-radius
+  background-size: cover
 
   &.small
     width: 300px
@@ -114,39 +126,84 @@ $row-height: 350px
     width: 600px
 
 
-img 
-  width: 100%
-  height: auto
-  border-top:
-    left-radius: 8px
-    right-radius: 8px
-
-
 #card-mid
-  height: 40%
-  opacity: 0.5
+  position: relative
+  height: 30%
+  opacity: 0.95
+  background-color: black
+  @include border-radius($little-border-radius)
+  z-index: 1
+
+  &.active
+    @include border-radius(0px, $little-border-radius)
 
 
-.switch
+.heading
+  margin-top: 2%
+  font-size: 2.6rem
+  text-align: center
+
+
+#switch-btn
+  background-color: grey
+  width: 2 * $hcircle-r
+  height: $hcircle-r
+  border-top:
+    left-radius: $hcircle-r
+    right-radius: $hcircle-r
+
+  position: absolute
+  bottom: 0%
+  left: 50%
+  transform: translateX(-50%)
+
+
+.mirror
+  transform: scale(1, -1)
+
+
+#tags
+  display: flex
+  flex-direction: row
+
+  position: absolute
+  left: 0%
+  bottom: 0%
+  margin:
+    left: 2%
+    bottom: 1%
+
+
+.link
+  line-height: 1%
+  position: absolute
+  right: 0%
+  bottom: 0%
+  margin:
+    right: 2%
+    bottom: 1%
+
+  background-color: darkgrey
+  border-radius: 5px
+  padding: 3px
+
+.svg-icon
+  display: inline-block
+
+.vc-text
+  display: inline-block
+  padding: 5px
+  transform: translateY(-5px)
+
+
+#switch
   transition: 1s
   overflow: hidden
   height: 0%
+  opacity: 0.85
+  background-color: black
+  @include border-radius($little-border-radius)
 
   &.active
-    height: 60%
-
-
-.tooltip-trigger
-  position: relative
-
-  & ~ .tooltip
-    visibility: hidden
-    posistion: absolute
-    z-index: 1
-    opacity: 0
-    transition: opacity 0.3s
-
-  &:hover ~ .tooltip
-    visibility: visible
-    opacity: 1
+    height: 70%
 </style>
