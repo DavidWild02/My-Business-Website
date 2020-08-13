@@ -5,7 +5,9 @@
       <router-link to="/about-me">About Me</router-link> |
       <router-link to="/my-projects">My Projects</router-link>
     </div>
-    <router-view class="cointainer-lg" />
+    <div class="container-lg">
+      <router-view/>
+    </div>
     <div class="Contact">
       <h3>Contact</h3>
       <div>

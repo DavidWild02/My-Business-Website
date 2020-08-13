@@ -5,7 +5,7 @@
     </div>
     <div id="card-mid">
       <h2>{{ title }}</h2>
-      <div v-if="tags.length > 0">
+      <div v-if="tags.length > 0" class="">
         <div v-if="tooMuchTags" class="tooltip-trigger">
           <SvgIcon
             v-for="(tag, index) in firstTags"
@@ -91,16 +91,40 @@ export default class ProjectCard extends Vue {
 }
 </script>
 
-<style lang="sass">
-.project-card
-  & .small
-    flex-grow: 1
+<style lang="sass" scoped>
+$row-height: 350px
 
-  & .medium
-    flex-grow: 1/2
+.project-card
+  height: $row-height
+  margin-bottom: 2%
+  border:
+    width: 2px
+    style: solid
+    color: white
+    radius: 8px
+  flex-shrink: 0
+
+  &.small
+    width: 300px
+
+  &.medium
+    width: 450px
 
   &.large
-    flex-grow: 2
+    width: 600px
+
+
+img 
+  width: 100%
+  height: auto
+  border-top:
+    left-radius: 8px
+    right-radius: 8px
+
+
+#card-mid
+  height: 40%
+  opacity: 0.5
 
 
 .switch
@@ -109,10 +133,11 @@ export default class ProjectCard extends Vue {
   height: 0%
 
   &.active
-    height: 80%
+    height: 60%
 
 
 .tooltip-trigger
+  position: relative
 
   & ~ .tooltip
     visibility: hidden

@@ -2,6 +2,7 @@
 node_modules
 /dist
 TODO
+output-webpack-config.js
 
 # local env files
 .env.local
